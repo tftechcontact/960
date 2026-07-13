@@ -151,7 +151,7 @@ h1 {
   background-color: #0b3463;
 }
 
-/* Redesigned Carousel to handle layered image separation and animation */
+/* Redesigned to act as a proper display viewport */
 .carousel-container {
   position: relative;
   width: 100%;
@@ -163,34 +163,21 @@ h1 {
   background: #e0e0e0;
 }
 
+/* Hidden by default; active class managed by JavaScript engine */
 .carousel-item {
-  position: absolute;
-  top: 0;
-  left: 0;
+  display: none;
   width: 100%;
   height: 100%;
-  opacity: 0;
-  animation: slideAnimation 16s infinite;
+}
+
+.carousel-item.active {
+  display: block;
 }
 
 .carousel-item img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-}
-
-/* Sequential timing delays preventing visual overlap */
-.carousel-item:nth-child(1) { animation-delay: 0s; }
-.carousel-item:nth-child(2) { animation-delay: 4s; }
-.carousel-item:nth-child(3) { animation-delay: 8s; }
-.carousel-item:nth-child(4) { animation-delay: 12s; }
-
-@keyframes slideAnimation {
-  0% { opacity: 0; }
-  5% { opacity: 1; }
-  25% { opacity: 1; }
-  30% { opacity: 0; }
-  100% { opacity: 0; }
 }
 
 .carousel-btn {
@@ -266,14 +253,14 @@ h1 {
     </div>
 
     <div class="carousel-container">
-      <button class="carousel-btn prev">&#10094;</button>
+      <button class="carousel-btn prev" id="prevBtn">&#10094;</button>
       
-      <div class="carousel-item"><img src="9601.jpg" alt="Demolition Service Pic"></div>
+      <div class="carousel-item active"><img src="9601.jpg" alt="Demolition Service Pic"></div>
       <div class="carousel-item"><img src="9602.jpg" alt="Dumpster Service Pic"></div>
       <div class="carousel-item"><img src="https://placehold.co/600x400?text=Hauling+Pic" alt="Hauling Service Pic"></div>
       <div class="carousel-item"><img src="https://placehold.co/600x400?text=Tractor+Pic" alt="Tractor Service Pic"></div>
 
-      <button class="carousel-btn next">&#10095;</button>
+      <button class="carousel-btn next" id="nextBtn">&#10095;</button>
     </div>
   </div>
 
@@ -284,237 +271,21 @@ h1 {
 
 </div>
 
-</body>
-</html>  background-color: #2f4963;
-  font-size: 16px;
-  text-align: center;
-  color: #ffffff;
-  padding: 20px;
-}
+<script>
+  const slides = document.querySelectorAll('.carousel-item');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  let currentSlide = 0;
 
-h1 {
-  font-family: 'Oswald', 'Arial Black', sans-serif;
-  color: #ffffff;
-  font-size: 300%;
-  margin: 0;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
+  function showSlide(index) {
+    slides[currentSlide].classList.remove('active');
+    currentSlide = (index + slides.length) % slides.length;
+    slides[currentSlide].classList.add('active');
+  }
 
-.hero {
-  grid-area: hero;
-  background-color: #e8dfc8; 
-  color: #312933;
-  text-align: center; 
-  border: 6px solid #312933;
-  padding: 30px;
-  width: auto;
-  margin: 0 10px 30px 10px; 
-}
-
-.hero .title {
-  font-family: 'Oswald', sans-serif;
-  font-size: 3rem;
-  font-weight: 700;
-  color: #312933;
-  margin-bottom: 5px;
-}
-
-.hero .subtitle {
-  font-size: 1.1rem;
-  font-weight: bold;
-  max-width: 900px;
-  margin: 0 auto;
-  color: #312933;
-}
-
-.main {
-  grid-area: main;
-  border: 2px solid powderblue;
-  padding: 30px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  margin: 0 10px;
-  background-color: #f4f4f4; 
-}
-
-.p-main {
-  color: #251803;
-  font-family: courier;
-  font-size: 15px;
-}
-
-.flex-container {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: space-evenly;
-  align-items: stretch;
-  gap: 15px;
-  width: 100%;
-}
-
-.box-one {
-  width: 320px;
-  height: auto;
-  padding: 10px;
-  border: 5px solid gray;
-  margin: 0;
-  background-color: #ffffff; 
-}
-
-/* Set parent container to align elements to the left by default */
-.box-two {
-  width: 320px;
-  height: auto;
-  padding: 15px;
-  border: 5px solid gray;
-  margin: 0;
-  background-color: #ffffff; 
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: flex-start;
-  text-align: left;
-}
-
-/* New layout wrapper class that centers only the specified contact elements */
-.center-contact-section {
-  text-align: center;
-  width: 100%;
-  margin-top: 15px;
-}
-
-.email-button {
-  display: inline-block;
-  background-color: #0f4687;
-  color: #ffffff !important;
-  text-decoration: none;
-  font-weight: bold;
-  padding: 12px 24px;
-  border-radius: 4px;
-  margin-top: 10px;
-  width: auto;
-  text-align: center;
-  border: none;
-}
-
-.email-button:hover {
-  background-color: #0b3463;
-}
-
-.carousel-container {
-  position: relative;
-  width: 100%;
-  max-width: 600px;
-  margin: 20px auto;
-  overflow: hidden;
-  border: 1px solid #ccc;
-}
-
-.carousel-item {
-  display: block;
-  width: 100%;
-  text-align: center;
-  background: #e0e0e0;
-  padding: 40px 20px;
-}
-
-.carousel-btn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background-color: rgba(0,0,0,0.5);
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  cursor: pointer;
-  font-size: 18px;
-}
-
-.carousel-btn.prev { left: 10px; }
-.carousel-btn.next { right: 10px; }
-
-.footer {
-  grid-area: footer;
-  background-color: #2f4963;
-  color: #ffffff;
-  text-align: center;
-  padding: 25px;
-  width: 100%;
-  margin: 0;
-}
-</style>
-</head>
-<body>
-
-<div class="grid-container">
-  <div class="header">
-    <h1>Diebels Dumpsters and Demolition Inc.</h1>
-  </div>
-
-  <div class="hero">
-    <div class="title"><p>Thank you for the visit!</p></div>
-    <div class="subtitle"><p>Eagle Scout Owned and Operated. <br> Junk Removal, Demolition, and Hauling.</p></div> 
-  </div>
-
-  <div class="main">
-    <div class="p-main">
-      <p>Company Mission Statement:</p>
-      <p>We pride ourselves on outstanding communication with our clients. We take full responsibility for everything we do on your property. New customers seek us because they have dealt with companies who lacked practicing proper communication with them before, during and after the job they signed on to do. It is our mission to leave you 110% satisfied with your property and our company after we have completed the job.</p>
-      <p>We are more importantly a company who has earned it the hard way. We will shoot you straight and give you a sound and honest judgement on what you need to be corrected and never more. I've built this company with a push mower and a broom 9 years ago to what It is today. A business branded on the model of doing the job right and keeping the customer informed every step of the way with a smile. - Scott A. Diebel</p>
-    </div>
-
-    <div class="flex-container">
-      <div class="box-one">
-        <h2> Services offered, but are not limited to:</h2>
-        <div style="margin-top: 10px; padding-left: 20px;">
-          <ul>
-            <li>Junk removal, estate clean outs, eviction clean outs</li>
-            <li style="margin-top: 5px;">Demolition and hauling</li> 
-            <li>Bobcat Work: Grading, Clearing, Excavation, Demolition, Bush Hogging and Much More</li>
-            <li style="margin-top: 5px;">Mulch, Stone, Shell, Topsoil, Gravel, and Fill Dirt Delivery and Installation.</li>
-            <li>Tractor Work</li>
-            <li style="margin-top: 5px;">And Much Much More!</li>
-          </ul> 
-        </div>
-      </div>
-
-      <div class="box-two">
-        <h3>If any of our listed services cater to your needs then shoot us a call. We will respond to you in a timely manner! </h3>
-        <h4> Free Estimates! <br> Estimates Given On Site! Or within 1-2 business days for larger jobs. *References available upon request*</h4>
-        
-        <!-- This specific inner container handles centering for the phone number and the email button exclusively -->
-        <div class="center-contact-section">
-          <p>Call or text (727) 249-8685 </p>
-          <a href="mailto:@gmail.com" target="_blank" class="email-button">Send Email</a>
-        </div>
-      </div> 
-    </div>
-
-    <div class="carousel-container">
-      <button class="carousel-btn prev">&#10094;</button>
-      <div class="carousel-item">
-        <img src="9601.jpg" alt="Carousel Image Block">
-         <img src="9602.jpg" alt="Carousel Image Block">
-         <img src="..." alt="Carousel Image Block">
-         <img src="..." alt="Carousel Image Block">
-        <!-- <div class="carousel-caption">
-          <h5>Service Slide Title</h5>
-          <p>Description of services provided.</p>
-        </div> -->
-      </div>
-      <button class="carousel-btn next">&#10095;</button>
-    </div>
-  </div>
-
-  <div class="footer">
-    <p>&copy; <b> Diebels Dumpsters and Demolition Inc. Scottscapes, Inc.</b> 2026 All Rights Reserved.</p> 
-    <p> Have a Blessed day! </p>
-  </div>
-
-</div>
+  prevBtn.addEventListener('click', () => showSlide(currentSlide - 1));
+  nextBtn.addEventListener('click', () => showSlide(currentSlide + 1));
+</script>
 
 </body>
 </html>
